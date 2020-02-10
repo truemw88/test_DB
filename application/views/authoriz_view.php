@@ -8,14 +8,12 @@
     <title>Document</title>
 </head>
 <body>
-<form action="/reg/add_pers" method="post" >
-    Форма добавления строки в БД<br>
+<form action="/reg/authoriz" method="post" >
+    Авторизация<br>
     <input name="user" type="text" placeholder="Введите ваш логин" /><br>
     <input name="email" type="email" placeholder="Введите ваш email"  /><br>
     <input name="password" type="password" placeholder="Введите пароль"  /><br>
-    <input type="submit" /><br>
+    <input type="submit"/><br>
 </form>
-
-
 </body>
 </html>

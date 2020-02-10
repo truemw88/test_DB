@@ -59,6 +59,9 @@ Class Route{
         // создаем контроллер
         $controller = new $controller_name;
         $action = $action_name;
+       // var_dump($controller);
+       //var_dump($action);
+        //exit;
 
         if(method_exists($controller, $action))
         {
