@@ -1,13 +1,26 @@
 <?php
 
+include $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTORY_SEPARATOR."models".DIRECTORY_SEPARATOR."model_methods.php";
+
 class Controller_reg extends Controller {
 
 
-    function action_add_pers_form(){
+    function action_index()
+    {
+        $persones = Page::GetInfo('persone');
+        if ($persones === false) {
 
-        $this->view->generate('reg_view.php', 'template_view.php');
-
+        }
+        $this->view->renderObjects(
+            ['title' => 'Персоны', 'objects' => $persones]
+        );
     }
+
+    function action_add_pers_form()
+    {
+        $this->view->generate('reg_view.php', 'template_view.php');
+    }
+
     function action_add_pers(){
 
 //        $name = $_POST['user'];
@@ -20,9 +33,6 @@ class Controller_reg extends Controller {
 //                $value= stripslashes($value);
 //                $
 //            }
-        include $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTORY_SEPARATOR."models".DIRECTORY_SEPARATOR."model_methods.php";
-        //var_dump($_POST);
-        // exit('ку222');
         $add = Page::InsertInfo('persone',$_POST);
 
 

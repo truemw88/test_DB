@@ -2,6 +2,7 @@
 
 class Page
 {
+
     /**
      * @param $table
      * @param $fieldValue массив ['title'=>'батарея для телефона', 'price'] батарея для телефона
@@ -27,33 +28,35 @@ class Page
         $result = $db->query($sql);
     }
 
-    public static function GetInfo($table, $user, $pass, $column = null, $value = null)
+    public static function GetInfo($table, $fieldValue = null)
     {
         $db = Db::getConnection();
-//        foreach ($fieldValue as $key => $value) {
-//            if (is_numeric($value)) {
-//                $values[] = $value;
-//            } else {
-//                $values[] = "'" . $value . "'";
-//            }
-//            $fields[] = $key;
-//
-//        }
-//        $values1 = implode(" , ", $values);
-        $sql = "SELECT id, user, password FROM $table";
-        $sql .= "WHERE user = $user AND password = $pass ";
+        /*foreach ($fieldValue as $key => $value) {
+            if (is_numeric($value)) {
+                $values[] = $value;
+            } else {
+                $values[] = "'" . $value . "'";
+            }
+            $fields[] = $key;
+
+        }
+        $values1 = implode(" , ", $values);
+        */
+
+        $sql = "SELECT * FROM $table ";
+        $sql .= "WHERE 1=1";
+
         $result = $db->query($sql);
 
+        $rows = [];
         if ($result == false) {
-            echo "пользователя нет";
+            return false;
         } else {
-            $row = mysqli_fetch_array($result, MYSQLI_NUM);
-            return $row;
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $rows[] = $row;
+            }
+            return $rows;
         }
-//        if ($column!== null && $value !== null) {
-//            $sql .= "WHERE user = $user";
-//        }
-
     }
 
     public static function UpdateInfo($id, $name)

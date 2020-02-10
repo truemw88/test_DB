@@ -1,17 +1,9 @@
-<?php //foreach (Page::GetInfo() AS $index): ?>
-<!--    id: --><?//=$index['id']?>
-<!--    name: --><?//=$index['name']?>
-<?php //endforeach; ?>
+<h1><?=$data['title']?></h1>
 
-<form action="" method="post" >
-    Форма добавления строки в БД
-    <input name="name" type="text" value="" /><br>
-    <input name="submitadd" type="submit" /><br>
-</form>
-
-<form action="" method="post" >
-    Форма редактирования строки БД
-    <input name="id" type="text" value="" /><br>
-    <input name="name" type="text" value="" /><br>
-    <input name="submitupd" type="submit" /><br>
-</form>
+<?php foreach ($data['objects'] as $name => $index): ?>
+  <?php foreach ($index as $name => $value): ?>
+    <strong><?= $name ?></strong>: <?= $value ?>
+    <br>
+  <?php endforeach; ?>
+<hr>
+<?php endforeach; ?>
