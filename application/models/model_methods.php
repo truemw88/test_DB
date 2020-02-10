@@ -52,10 +52,14 @@ class Page
 
     }
 
-    public static function GetInfo($table)
+    public static function GetInfo($table,$fieldValue = null,$join = null )
     {
         $db = Db::getConnection();
         $sql = 'SELECT * FROM `$table`';
+        if($join !== null){
+            $sql .= 'where  ';
+        }
+        $sql .= 'where  ';
         $result = $db->query($sql);
 
     }
