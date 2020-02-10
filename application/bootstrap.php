@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Михаил
- * Date: 2/4/2020
- * Time: 12:22 PM
- */
+
 require_once 'core/controller.php';
 require_once 'core/model.php';
 require_once 'core/views.php';
