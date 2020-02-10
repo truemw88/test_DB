@@ -46,10 +46,11 @@ Class Route{
 
         // подцепляем файл с классом контроллера
         $controller_file = strtolower($controller_name).'.php';
-        $controller_path = "application/controllers/".$controller_file;
+        $controller_path = $_SERVER['DOCUMENT_ROOT'] . "/application/controllers/".$controller_file;
+
         if(file_exists($controller_path))
         {
-            include "application/controllers/".$controller_file;
+            include $controller_path;
         }
         else{
             throw new Exception('[ERROR! Controller '.$controller_file.'. IS NOT EXSIST! ]<hr/>');

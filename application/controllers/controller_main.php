@@ -26,7 +26,7 @@ class Controller_Main extends Controller
 
     function action_add_record()
     {
-        include $_SERVER['DOCUMENT_ROOT']."\application\models\model_methods.php";
+        include $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTORY_SEPARATOR."models".DIRECTORY_SEPARATOR."model_methods.php";
         //var_dump($_POST);
       // exit('ку222');
        $add = Page::InsertInfo('product',$_POST);

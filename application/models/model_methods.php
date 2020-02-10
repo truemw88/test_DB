@@ -9,7 +9,7 @@ class Page
     public static function InsertInfo($table, $fieldValue)
     {
         // $values1 = implode(",", $values);
-        //var_dump($values);
+        //var_dump($values);ghjgv
         //$values = '';
 //        $fields = '';
 
