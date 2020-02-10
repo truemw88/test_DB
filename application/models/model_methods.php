@@ -8,23 +8,6 @@ class Page
      */
     public static function InsertInfo($table, $fieldValue)
     {
-        // $values1 = implode(",", $values);
-        //var_dump($values);ghjgv
-        //$values = '';
-//        $fields = '';
-
-        // VALUES ('John', 'Doe', 'john@example.com')"
-//        foreach ($fieldValue as $key => $value){
-//            $values .=',`'.$value.'`' ;
-//            //$fields .='".$key."' ;
-//            var_dump($values);
-//        }
-
-        //var_dump($values);
-        //var_dump($fields);
-        //var_dump($_POST['title']);
-        // var_dump($fieldValue);
-
         foreach ($fieldValue as $key => $value) {
             if (is_numeric($value)) {
                 $values[] = $value;
@@ -32,31 +15,44 @@ class Page
                 $values[] = "'" . $value . "'";
             }
             $fields[] = $key;
-            //var_dump($values);
+
         }
-
-        //var_dump($fields);
-
         $values1 = implode(" , ", $values);
         $fields1 = implode(" , ", $fields);
-
         $db = Db::getConnection();
-       //$sql = "INSERT INTO products(title,price) VALUES ('".$_POST['title']'.'$_POST['price'].")" ;
-        $sql = "INSERT INTO $table (". $fields1 .")
-                VALUES (". $values1 .")";
-        //var_dump($sql);
-        //de($sql);
+
+        $sql = "INSERT INTO $table (" . $fields1 . ")
+                VALUES (" . $values1 . ")";
         print_r($sql);
         $result = $db->query($sql);
-        //var_dump($result);
-
     }
 
-    public static function GetInfo($table)
+    public static function GetInfo($table, $user, $pass, $column = null, $value = null)
     {
         $db = Db::getConnection();
-        $sql = 'SELECT * FROM `$table`';
+//        foreach ($fieldValue as $key => $value) {
+//            if (is_numeric($value)) {
+//                $values[] = $value;
+//            } else {
+//                $values[] = "'" . $value . "'";
+//            }
+//            $fields[] = $key;
+//
+//        }
+//        $values1 = implode(" , ", $values);
+        $sql = "SELECT id, user, password FROM $table";
+        $sql .= "WHERE user = $user AND password = $pass ";
         $result = $db->query($sql);
+
+        if ($result == false) {
+            echo "пользователя нет";
+        } else {
+            $row = mysqli_fetch_array($result, MYSQLI_NUM);
+            return $row;
+        }
+//        if ($column!== null && $value !== null) {
+//            $sql .= "WHERE user = $user";
+//        }
 
     }
 
