@@ -12,6 +12,7 @@ class Db
         }
         $params = include($paramsPath);
 
+
         // Устанавливаем соединение
         $db = new mysqli($params['host'], $params['user'], $params['password'], $params['dbname'], $params['dbport']);
         return $db;
