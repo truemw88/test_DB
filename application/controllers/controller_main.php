@@ -1,12 +1,13 @@
 <?php
 
 include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "application" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "model_methods.php";
+include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "application" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "model_product.php";
 
 class Controller_Main extends Controller
 {
     function action_index()
     {
-        $products = Page::GetInfo('product', ['price' => 1000]);
+        $products = SQL::select('product', ['price' => 1000]);
         if ($products === false) {
 
         }
@@ -18,11 +19,12 @@ class Controller_Main extends Controller
     function action_add_record_form()
     {
         $this->view->generate('addrecord_view.php', 'template_view.php');
+
     }
 
     function action_add_record()
     {
-        $add = Page::InsertInfo('product', $_POST);
+        $add = SQL::select('product', $_POST);
     }
     //TODO разработать автозагрузчик классов
 

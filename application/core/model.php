@@ -6,12 +6,32 @@
  * Time: 12:17 PM
  */
 
-class Model
+//НАЙТИ ИМЯ НАСЛЕДНИКА getTableName()
+
+abstract class Model
 {
-    public function get_data()
+    function find()
     {
+        return SQL::select($this->getTableName());
+
     }
 
+    function save()
+    {
 
+    }
+
+    function load()
+    {
+
+
+    }
+
+    private function getTableName()
+    {
+        $mass = strtolower(explode("Model_", get_class($this))[1]);
+        return $mass;
+
+    }
 
 }

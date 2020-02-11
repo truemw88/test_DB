@@ -7,7 +7,7 @@ class Controller_reg extends Controller {
 
     function action_index()
     {
-        $persones = Page::GetInfo('persone');
+        $persones = SQL::select('persone');
         if ($persones === false) {
 
         }
@@ -33,7 +33,7 @@ class Controller_reg extends Controller {
 //                $value= stripslashes($value);
 //                $
 //            }
-        $add = Page::InsertInfo('persone',$_POST);
+        $add = SQL::insert('product',$_POST);
 
 
     }
