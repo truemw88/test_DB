@@ -12,7 +12,6 @@ Class Route
 
     static function start()
     {
-
         // по умолчанию
         $controller_name = 'main';
         $action_name = 'index';
@@ -20,19 +19,13 @@ Class Route
         $routers = explode('/', $_SERVER['REQUEST_URI']);// РАЗДЕЛИЛИ ЮРЛЬ
 
         if (!empty($routers[1])) {
-
             $controller_name = $routers[1];
-
         }
 
         if (!empty($routers[2])) {
-
             $action_name = $routers[2];
-
         }
 
-//        var_dump($routers);
-//        exit();
         // добавил префикс
         $controller_name = 'Controller_' . $controller_name;
         $action_name = 'action_' . $action_name;
@@ -58,17 +51,20 @@ Class Route
         // создаем контроллер
         $controller = new $controller_name;
         $action = $action_name;
-        // var_dump($controller);
-        //var_dump($action);
-        //exit;
 
         if (method_exists($controller, $action)) {
             // вызываем действие контроллера
+            self::checkAuth();
             $controller->$action();
         } else {
             // здесь также разумнее было бы кинуть исключение
             throw new Exception('[ERROR! Action ' . $controller_file . ' ' . $action . ' IS NOT EXSIST! ]<hr/>');
         }
+    }
+
+    static function checkAuth()
+    {
+
     }
 
     function ErrorPage404()
@@ -78,6 +74,4 @@ Class Route
         header("Status: 404 Not Found");
         header('Location:' . $host . '404');
     }
-
-
 }

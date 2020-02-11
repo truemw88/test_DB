@@ -31,20 +31,21 @@ class Page
     public static function GetInfo($table, $fieldValue = null)
     {
         $db = Db::getConnection();
-        /*foreach ($fieldValue as $key => $value) {
+
+        $condition = [];
+        foreach ($fieldValue as $key => $value) {
             if (is_numeric($value)) {
-                $values[] = $value;
+                $condition[] = $key . " = " . $value;
             } else {
-                $values[] = "'" . $value . "'";
+                $condition[] = $key . " = '" . $value . "'";
             }
-            $fields[] = $key;
 
         }
-        $values1 = implode(" , ", $values);
-        */
+
+        $condition = implode(" , ", $condition);
 
         $sql = "SELECT * FROM $table ";
-        $sql .= "WHERE 1=1";
+        $sql .= "WHERE 1=1 AND "  . $condition;
 
         $result = $db->query($sql);
 
