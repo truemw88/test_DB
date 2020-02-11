@@ -40,17 +40,16 @@ class SQL
         $result = $db->query($sql);
     }
 
-    public static function select($table,$fieldValue = [], $columnValue = [])
+    public static function select($table, $fieldValue = null, $columnValue = [])
     {
         $db = Db::getConnection();
 
 
         $values = [];
-        foreach ($fieldValue as $value) {
-            if (is_numeric($value)) {
-                $values[] = $value;
-            }
+        foreach ($fieldValue as $key => $value) {
+            $values[] = $key;
         }
+
         $values = implode(" , ", $values);
 
        // $condition = self::each($columnValue);
@@ -63,11 +62,12 @@ class SQL
                 $condition[] = " AND " .$key . " = '" . $value . "'";
             }
         }
-        $condition = implode(" , ", $condition);
+        $condition = implode(" ", $condition);
 
 
-        //$sql = "SELECT ".$values." FROM $table ";
-        $sql = "SELECT * FROM $table ";
+
+        $sql = "SELECT ".$values." FROM $table ";
+        //$sql = "SELECT * FROM $table ";
         $sql .= "WHERE 1=1 " . $condition;
         $result = $db->query($sql);
 
@@ -105,10 +105,12 @@ class SQL
                 $condition[] = " AND " . $key . " = '" . $value . "'";
             }
         }
-        $condition = implode(" , ", $condition);
+        $condition = implode(" ", $condition);
 
         $sql = "UPDATE $table SET ".$values."  WHERE 1=1 " .$condition;
+
         $result = $db->query($sql);
+
         if($result == false){
             return false;
         }else{
