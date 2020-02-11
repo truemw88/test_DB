@@ -19,24 +19,29 @@ class Controller_authoriz extends Controller
             4. "Отдаём" токен пользователю - через куки
             5. Перед любым действием (action) кроме логина и обработчика формы логина - нужно проверить есть ли у поьзователя доступ.
          */
-        $data = SQL::select('persone', $_POST);
-        setcookie("user", $data['id'], time() + 60 * 60 * 24 * 30, "/");
+       // $data = SQL::select('persone', $_POST);
 
+   //     setcookie("user", $data['1'], time() + 60 * 60 * 24 * 30, "/");
+//
+//
+//
+//        $password = $data['password'];
+//        $user = $data['user'];
 
+        $person = SQL::select('persone', $_POST, $_POST);
 
-        $password = $data['pass'];
-        $user = $data['user'];
-
-        $person = SQL::select('persone',['user'=> $user, 'pass'=>$password]);
-
-        if (false && $person == false){
+        if (false && $person == false) {
 
             echo "Аунтефикация не пройдена";
 
         } else {
             echo 'ok';
-            $token = rand(1000000, 9999999).rand(1000000, 9999999);
+            $token = rand(1000000, 9999999) . rand(1000000, 9999999);
+            $mass =SQL::update('persone',['token' => $token] ,$_POST);
+            $person = SQL::select('persone',['token' => $token] , $_POST);
 
+             setcookie("token", $person['token'], time() + 60 * 60 * 24 * 30, "/");
+           // de($cookie);
         }
 
     }
