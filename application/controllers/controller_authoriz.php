@@ -7,7 +7,7 @@ class Controller_authoriz extends Controller
 
     function action_authoriz_form()
     {
-        $this->view->generate('authotiz_view.php', 'template_view.php');
+        $this->view->generate('authoriz_view.php', 'template_view.php');
     }
 
     function action_authoriz()
@@ -19,7 +19,25 @@ class Controller_authoriz extends Controller
             4. "Отдаём" токен пользователю - через куки
             5. Перед любым действием (action) кроме логина и обработчика формы логина - нужно проверить есть ли у поьзователя доступ.
          */
-        $data = Page::getInfo('persone', $_POST['user'], $_POST['pass']);
+        $data = Page::getInfo('persone', $_POST);
         setcookie("user", $data['id'], time() + 60 * 60 * 24 * 30, "/");
+
+
+
+        $password = $data['pass'];
+        $user = $data['user'];
+
+        $person = Page::GetInfo('persone',['user'=> $user, 'pass'=>$password]);
+
+        if (false && $person == false){
+
+            echo "Аунтефикация не пройдена";
+
+        } else {
+            echo 'ok';
+            $token = rand(1000000, 9999999).rand(1000000, 9999999);
+
+        }
+
     }
 }
