@@ -8,9 +8,17 @@ class SQL
      * @param $fieldValue массив ['title'=>'батарея для телефона', 'price'] батарея для телефона
      */
 
-    static function each()
+    static function each($columnValue)
     {
-
+        $condition = [];
+        foreach ($columnValue as $key => $value) {
+            if (is_numeric($value)) {
+                $condition[] = " AND " .$key . " = " . $value;
+            } else {
+                $condition[] = " AND " . $key . " = '" . $value . "'";
+            }
+        }
+        $condition = implode(" , ", $condition);
     }
     public static function insert($table, $fieldValue)
     {
@@ -36,6 +44,7 @@ class SQL
     {
         $db = Db::getConnection();
 
+
         $values = [];
         foreach ($fieldValue as $value) {
             if (is_numeric($value)) {
@@ -44,6 +53,7 @@ class SQL
         }
         $values = implode(" , ", $values);
 
+       // $condition = self::each($columnValue);
 
         $condition = [];
         foreach ($columnValue as $key => $value) {
@@ -55,9 +65,10 @@ class SQL
         }
         $condition = implode(" , ", $condition);
 
-        $sql = "SELECT ".$values." FROM $table ";
+
+        //$sql = "SELECT ".$values." FROM $table ";
+        $sql = "SELECT * FROM $table ";
         $sql .= "WHERE 1=1 " . $condition;
-        de($sql);
         $result = $db->query($sql);
 
         $rows = [];
@@ -75,7 +86,7 @@ class SQL
     {
         $db = Db::getConnection();
 
-        $condition = [];
+        $values = [];
 
         foreach ($fieldValue as $key => $value) {
             if (is_numeric($value)) {
@@ -86,6 +97,7 @@ class SQL
         }
         $values = implode(" , ", $values);
 
+        $condition = [];
         foreach ($columnValue as $key => $value) {
             if (is_numeric($value)) {
                 $condition[] = " AND " .$key . " = " . $value;
