@@ -5,12 +5,12 @@ include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "application" . DIRECT
 class Controller_authoriz extends Controller
 {
 
-    function action_authotiz_form()
+    function action_authoriz_form()
     {
         $this->view->generate('authotiz_view.php', 'template_view.php');
     }
 
-    function action_authotiz()
+    function action_authoriz()
     {
         /* TODO:
             1. Получаем $person = Page::GetInfo('persone', ['username' => $user, 'pwd' => $pwd]); if ($person == false) {Не аутентифицированы} else {...}
