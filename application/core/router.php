@@ -16,7 +16,7 @@ Class Route
         $controller_name = 'main';
         $action_name = 'index';
 
-        $routers = explode('/', $_SERVER['REQUEST_URI']);// РАЗДЕЛИЛИ ЮРЛЬ
+        $routers = explode('/', parse_url($_SERVER['REQUEST_URI'])['path']); // РАЗДЕЛИЛИ ЮРЛЬ
 
         if (!empty($routers[1])) {
             $controller_name = $routers[1];
@@ -64,7 +64,21 @@ Class Route
 
     static function checkAuth()
     {
+        if (isset($_COOKIE['token'])) {
+            $access = self::checkInDb($_COOKIE['token']);
+            if ($access) {
 
+            } else {
+
+            }
+        }
+    }
+
+    private static function checkInDb($token)
+    {
+        return true;
+        //return false;
+        //select('person', ['token' => $token..)
     }
 
     function ErrorPage404()

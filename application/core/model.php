@@ -10,24 +10,28 @@
 
 abstract class Model
 {
-    function find()
+    function find($columnValue)
     {
-        return SQL::select($this->getTableName());
+
 
     }
+
 
     function save()
     {
 
     }
 
-    function load()
+    function load($fieldValue = null)
     {
 
 
     }
+    function update(){
 
-    private function getTableName()
+    }
+
+    protected function getClassName()
     {
         $mass = strtolower(explode("Model_", get_class($this))[1]);
         return $mass;

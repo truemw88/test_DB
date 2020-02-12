@@ -1,6 +1,6 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "application" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "model_methods.php";
+include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "application" . DIRECTORY_SEPARATOR . "core" . DIRECTORY_SEPARATOR . "sql.php";
 
 class Controller_authoriz extends Controller
 {
@@ -12,40 +12,36 @@ class Controller_authoriz extends Controller
 
     function action_authoriz()
     {
-        /* TODO:
-            1. Получаем $person = Page::GetInfo('persone', ['username' => $user, 'pwd' => $pwd]); if ($person == false) {Не аутентифицированы} else {...}
-            2. Если нейм и пароль совпал - генерируем случайный токен (аналог пропускного билета)
-            3. Этот токен записываем в БД
-            4. "Отдаём" токен пользователю - через куки
-            5. Перед любым действием (action) кроме логина и обработчика формы логина - нужно проверить есть ли у поьзователя доступ.
+         /* TODO:
+         5. Перед любым действием (action) кроме логина и обработчика формы логина - нужно проверить есть ли у поьзователя доступ.
          */
-       // $data = SQL::select('persone', $_POST);
 
-   //     setcookie("user", $data['1'], time() + 60 * 60 * 24 * 30, "/");
-//
-//
-//
-//        $password = $data['password'];
-//        $user = $data['user'];
+        //1. Получаем $person = Page::GetInfo('persone', ['username' => $user, 'pwd' => $pwd]); if ($person == false) {Не аутентифицированы} else {...}
+        $person = $this->getPerson();
 
-        $person = SQL::select('persone', $_POST, $_POST);
-        de($person);
-        if (false && $person == false) {
-
-            echo "Аунтефикация не пройдена";
-
+        if (empty($person)) {
+            echo "Аунтефикация не пройдена <a href=\"/authoriz/authoriz_form\">Аутентификация</a>";
         } else {
-            echo 'ok';
+            echo "Аунтефикация пройдена <a href=\"/authoriz/authoriz_form\">Аутентификация</a>";
+
+            //2. Если нейм и пароль совпал - генерируем случайный токен (аналог пропускного билета)
             $token = rand(1000000, 9999999) . rand(1000000, 9999999);
-            $mass =SQL::update('persone',['token' => $token] ,$_POST);
 
-            $person = SQL::select('persone',['token' => $token] , $_POST);
-            $condition = implode(",", $person);
-            de($condition);
+            //3. Этот токен записываем в БД
+            $result = $this->setPerson($token);
 
-             setcookie("token", $person['token'], time() + 60 * 60 * 24 * 30, "/");
-           // de($cookie);
+            //4. "Отдаём" токен пользователю - через куки
+            setcookie("token", $token);
         }
+    }
 
+    public function getPerson()
+    {
+        return SQL::select('persone', $_POST, $_POST);
+    }
+
+    public function setPerson($token)
+    {
+        return SQL::update('persone', ['token' => $token] ,$_POST);
     }
 }

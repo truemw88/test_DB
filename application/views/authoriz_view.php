@@ -8,6 +8,7 @@
     <title>Document</title>
 </head>
 <body>
+Token: <?= $token ?> </hr>
 <form action="/authoriz/authoriz" method="post" >
     Авторизация<br>
     <input name="user" type="text" placeholder="Введите ваш логин" /><br>

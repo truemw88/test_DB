@@ -1,6 +1,6 @@
 <?php
 
-class SQL
+class sql
 {
 
     /**
@@ -13,16 +13,17 @@ class SQL
         $condition = [];
         foreach ($columnValue as $key => $value) {
             if (is_numeric($value)) {
-                $condition[] = " AND " .$key . " = " . $value;
+                $condition[] = " AND " . $key . " = " . $value;
             } else {
                 $condition[] = " AND " . $key . " = '" . $value . "'";
             }
         }
         $condition = implode(" , ", $condition);
-
     }
+
     public static function insert($table, $fieldValue)
     {
+
         foreach ($fieldValue as $key => $value) {
             if (is_numeric($value)) {
                 $values[] = $value;
@@ -37,36 +38,39 @@ class SQL
         $db = Db::getConnection();
 
         $sql = "INSERT INTO $table (" . $fields1 . ") VALUES (" . $values1 . ")";
-        print_r($sql);
-        $result = $db->query($sql);
+        $query = $db->query($sql);
+
+
+        if ($query) {
+            $db->insert_id;
+            return $db->insert_id;
+        } else {
+            return false;
+        }
     }
 
-    public static function select($table, $fieldValue = null, $columnValue = [])
+    public static function select($table, $columnValue = [])
     {
         $db = Db::getConnection();
 
+        // $condition = self::each($columnValue);
 
-        $values = [];
-        foreach ($fieldValue as $key => $value) {
-            $values[] = $key;
-        }
-        $values = implode(" , ", $values);
-
-       // $condition = self::each($columnValue);
         $condition = [];
+
         foreach ($columnValue as $key => $value) {
             if (is_numeric($value)) {
-                $condition[] = " AND " .$key . " = " . $value;
+                $condition[] = " AND " . $key . " = " . $value;
             } else {
-                $condition[] = " AND " .$key . " = '" . $value . "'";
+                $condition[] = " AND " . $key . " = '" . $value . "'";
             }
         }
         $condition = implode(" ", $condition);
-        $sql = "SELECT ".$values." FROM $table ";
-        //$sql = "SELECT * FROM $table ";
+
+
+        $sql = "SELECT * FROM $table ";
         $sql .= "WHERE 1=1 " . $condition;
         $result = $db->query($sql);
-
+        //  de($sql);
         $rows = [];
         if ($result == false) {
             return false;
@@ -78,12 +82,17 @@ class SQL
         }
     }
 
-    public static function update($table, $fieldValue = null, $columnValue = null)
+    public static function update($table, $fieldValue = null, $columnValue = null)//, $columnValue = null
     {
         $db = Db::getConnection();
 
-        $values = [];
+//        if($fieldValue == $columnValue
+//            || $fieldValue == null
+//            || $columnValue == null ){
+//            $columnValue = $fieldValue;
+//        }
 
+        $values = [];
         foreach ($fieldValue as $key => $value) {
             if (is_numeric($value)) {
                 $values[] = $key . " = " . $value;
@@ -93,24 +102,22 @@ class SQL
         }
         $values = implode(" , ", $values);
 
-        //$condition = self::each($columnValue);
         $condition = [];
         foreach ($columnValue as $key => $value) {
             if (is_numeric($value)) {
-                $condition[] = " AND " .$key . " = " . $value;
+                $condition[] = " AND " . $key . " = " . $value;
             } else {
                 $condition[] = " AND " . $key . " = '" . $value . "'";
             }
         }
         $condition = implode(" ", $condition);
 
-        $sql = "UPDATE $table SET ".$values."  WHERE 1=1 " .$condition;
-
+        $sql = "UPDATE $table SET " . $values . "  WHERE 1=1 " . $condition;
         $result = $db->query($sql);
 
-        if($result == false){
+        if ($result == false) {
             return false;
-        }else{
+        } else {
             return true;
         }
 
@@ -122,14 +129,14 @@ class SQL
 
         foreach ($columnValue as $key => $value) {
             if (is_numeric($value)) {
-                $condition[] = " AND " .$key . " = " . $value;
+                $condition[] = " AND " . $key . " = " . $value;
             } else {
                 $condition[] = " AND " . $key . " = '" . $value . "'";
             }
         }
-        $condition = implode(" ", $condition);
+        $condition = implode(" , ", $condition);
 
-        $sql = "DELETE FROM $table WHERE 1 = 1 ".$condition;
+        $sql = "DELETE FROM $table WHERE 1 = 1 " . $condition;
         $result = $db->query($sql);
 
     }
