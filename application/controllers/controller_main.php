@@ -11,6 +11,9 @@ class Controller_Main extends Controller
         if ($products === false) {
 
         }
+
+        $this->view->generate('main_view.php', 'main_view.php');
+
         $this->view->renderObjects(
             ['title' => 'Продукты', 'objects' => $products]
         );

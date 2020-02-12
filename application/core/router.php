@@ -64,7 +64,21 @@ Class Route
 
     static function checkAuth()
     {
+        if (isset($_COOKIE['token'])) {
+            $access = self::checkInDb($_COOKIE['token']);
+            if ($access) {
 
+            } else {
+
+            }
+        }
+    }
+
+    private static function checkInDb($token)
+    {
+        return true;
+        //return false;
+        //select('person', ['token' => $token..)
     }
 
     function ErrorPage404()
