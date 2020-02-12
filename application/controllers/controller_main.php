@@ -1,20 +1,20 @@
 <?php
 
 include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "application" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "model_methods.php";
-include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "application" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "model_product.php";
+//include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "application" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "model_product.php";
 
 class Controller_Main extends Controller
 {
     function action_index()
     {
-        $products = SQL::select('product', ['price' => 1000]);
+        $products = SQL::select('product', [], []);
         if ($products === false) {
 
         }
 
-        $this->view->generate('main_view.php', 'main_view.php');
-
-        $this->view->renderObjects(
+        $this->view->generate(
+             'main_view.php',
+            'main_view.php',
             ['title' => 'Продукты', 'objects' => $products]
         );
     }
@@ -22,11 +22,34 @@ class Controller_Main extends Controller
     function action_add_record_form()
     {
         $this->view->generate('addrecord_view.php', 'template_view.php');
-
     }
 
     function action_add_record()
     {
+
+        $product = new Product_Model();// {title: null, price: null}
+        $product->load($_POST);// {title: qweqwe, price: 120}
+        $product->save(); //{id: 5, title: qweqwe, price: 120}
+
+        $add = SQL::select('product', $_POST);
+    }
+
+    function action_update_record_form()
+    {
+        $product = SQL::select('product', [], ['id' => $_GET['id']]);
+        de($product);
+        $product = new Product_Model();
+        $product->find(['id' => $_GET['id']]);
+        $this->view->generate('addrecord_view.php', 'template_view.php');
+    }
+
+    function action_update_record()
+    {
+        $product = new Product_Model();// {title: null, price: null}
+        $product->find(['id' => $_POST['id']]); // {title: qweqwe, price: 120}
+        $product->load($_POST);
+        $product->save(); //{id: 5, title: qweqwe, price: 120}
+
         $add = SQL::select('product', $_POST);
     }
     //TODO разработать автозагрузчик классов

@@ -64,7 +64,7 @@ class SQL
         }
         $condition = implode(" ", $condition);
 
-        $sql = "SELECT ".$values." FROM $table ";
+        $sql = "SELECT * FROM $table ";
         $sql .= "WHERE 1=1 " . $condition;
         $result = $db->query($sql);
 
