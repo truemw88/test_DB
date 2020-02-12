@@ -7,7 +7,8 @@ class Controller_Main extends Controller
 {
     function action_index()
     {
-        $products = SQL::select('product', ['price' => 1000]);
+        $products = SQL::select('product',$fieldValue = [], ['price' => 1000]);
+
         if ($products === false) {
 
         }
@@ -25,6 +26,7 @@ class Controller_Main extends Controller
     function action_add_record()
     {
         $add = SQL::select('product', $_POST);
+        de($add);
     }
     //TODO разработать автозагрузчик классов
 

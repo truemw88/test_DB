@@ -19,6 +19,7 @@ class SQL
             }
         }
         $condition = implode(" , ", $condition);
+
     }
     public static function insert($table, $fieldValue)
     {
@@ -49,11 +50,9 @@ class SQL
         foreach ($fieldValue as $key => $value) {
             $values[] = $key;
         }
-
         $values = implode(" , ", $values);
 
        // $condition = self::each($columnValue);
-
         $condition = [];
         foreach ($columnValue as $key => $value) {
             if (is_numeric($value)) {
@@ -63,9 +62,6 @@ class SQL
             }
         }
         $condition = implode(" ", $condition);
-
-
-
         $sql = "SELECT ".$values." FROM $table ";
         //$sql = "SELECT * FROM $table ";
         $sql .= "WHERE 1=1 " . $condition;
@@ -97,6 +93,7 @@ class SQL
         }
         $values = implode(" , ", $values);
 
+        //$condition = self::each($columnValue);
         $condition = [];
         foreach ($columnValue as $key => $value) {
             if (is_numeric($value)) {
@@ -130,7 +127,7 @@ class SQL
                 $condition[] = " AND " . $key . " = '" . $value . "'";
             }
         }
-        $condition = implode(" , ", $condition);
+        $condition = implode(" ", $condition);
 
         $sql = "DELETE FROM $table WHERE 1 = 1 ".$condition;
         $result = $db->query($sql);

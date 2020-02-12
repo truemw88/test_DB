@@ -29,7 +29,7 @@ class Controller_authoriz extends Controller
 //        $user = $data['user'];
 
         $person = SQL::select('persone', $_POST, $_POST);
-
+        de($person);
         if (false && $person == false) {
 
             echo "Аунтефикация не пройдена";
@@ -38,7 +38,10 @@ class Controller_authoriz extends Controller
             echo 'ok';
             $token = rand(1000000, 9999999) . rand(1000000, 9999999);
             $mass =SQL::update('persone',['token' => $token] ,$_POST);
+
             $person = SQL::select('persone',['token' => $token] , $_POST);
+            $condition = implode(",", $person);
+            de($condition);
 
              setcookie("token", $person['token'], time() + 60 * 60 * 24 * 30, "/");
            // de($cookie);
