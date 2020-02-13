@@ -29,10 +29,12 @@ class Controller_Main extends Controller
 
     function action_add_record()//insert
     {
+
+        //de($_POST);
         $product = new Model_Product();// {title: null, price: null}
 
         $product->load($_POST);// {title: qweqwe, price: 120}
-        $product->save('insert');
+        $product->save();
         //de($product->load($_POST)); загрузил и выдал ид
         // $product->save(); //{id: 5, title: qweqwe, price: 120}
     }
@@ -54,9 +56,9 @@ class Controller_Main extends Controller
     {
         $product = new Model_Product();// {title: null, price: null}
 
-        //$product->find(['id' => $_POST['id']]); // {title: qweqwe, price: 120}
-        $product->load($_POST);
-        $product->save('update');
+        $mass=$product->find(['id' => $_POST['id']]);// {title: qweqwe, price: 120}
+        $product->load($mass[0]);
+        $product->save($_POST);
         //de($product->save($_POST));
         //$product->save(); //{id: 5, title: qweqwe, price: 120}
 

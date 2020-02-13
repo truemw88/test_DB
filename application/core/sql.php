@@ -23,7 +23,7 @@ class sql
 
     public static function insert($table, $fieldValue)
     {
-
+        //de($fieldValue);
         foreach ($fieldValue as $key => $value) {
             if (is_numeric($value)) {
                 $values[] = $value;
@@ -70,6 +70,7 @@ class sql
         $sql = "SELECT * FROM $table ";
         $sql .= "WHERE 1=1 " . $condition;
         $result = $db->query($sql);
+
         //  de($sql);
         $rows = [];
         if ($result == false) {
@@ -79,6 +80,7 @@ class sql
                 $rows[] = $row;
             }
             return $rows;
+
         }
     }
 
@@ -114,7 +116,6 @@ class sql
 
         $sql = "UPDATE $table SET " . $values . "  WHERE 1=1 " . $condition;
         $result = $db->query($sql);
-
         if ($result == false) {
             return false;
         } else {
