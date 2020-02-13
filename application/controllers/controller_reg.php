@@ -1,13 +1,12 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."application".DIRECTORY_SEPARATOR."models".DIRECTORY_SEPARATOR."model_methods.php";
 
 class Controller_reg extends Controller {
 
 
     function action_index()
     {
-        $persones = SQL::select('persone');
+        $persones = MySQL::select('persone');
         if ($persones === false) {
 
         }
@@ -33,7 +32,7 @@ class Controller_reg extends Controller {
 //                $value= stripslashes($value);
 //                $
 //            }
-        $add = SQL::insert('product',$_POST);
+        $add = MySQL::insert('persone',$_POST);
 
 
     }

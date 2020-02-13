@@ -1,9 +1,10 @@
 <?php
 
-class SQL
+class MySQL
 {
 
     /**
+     * todo: выводить ошибки после SQL запросов
      * @param $table
      * @param $fieldValue массив ['title'=>'батарея для телефона', 'price'] батарея для телефона
      */
@@ -66,7 +67,9 @@ class SQL
 
         $sql = "SELECT * FROM $table ";
         $sql .= "WHERE 1=1 " . $condition;
+
         $result = $db->query($sql);
+
 
         $rows = [];
         if ($result == false) {
@@ -95,6 +98,7 @@ class SQL
         $values = implode(" , ", $values);
 
         $condition = [];
+       // de($columnValue);
         foreach ($columnValue as $key => $value) {
             if (is_numeric($value)) {
                 $condition[] = " AND " .$key . " = " . $value;

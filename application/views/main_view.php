@@ -2,7 +2,7 @@
 <a href="/">Продукты</a>
 
 <h1><?=$data['title']?></h1>
-
+Token:<?= @$_COOKIE['token'] ?> </hr>
 <?php foreach ($data['objects'] as $name => $index): ?>
     <a href="/main/update_record_form?id=<?=$index['id']?>" >Обновить</a>
     <?php foreach ($index as $name => $value): ?>

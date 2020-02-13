@@ -8,13 +8,15 @@
     <title>Document</title>
 </head>
 <body>
-Token: <?= $token ?> </hr>
+Token: <?= @$_COOKIE['token'] ?> </hr>
 <form action="/authoriz/authoriz" method="post" >
     Авторизация<br>
+
     <input name="user" type="text" placeholder="Введите ваш логин" /><br>
-    <input name="email"  placeholder="Введите ваш email"  /><br>
     <input name="password" type="password" placeholder="Введите пароль"  /><br>
     <input type="submit"/><br>
+
+
 </form>
 </body>
 </html>

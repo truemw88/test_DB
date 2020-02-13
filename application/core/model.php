@@ -12,7 +12,7 @@ abstract class Model
 {
     function find()
     {
-        return SQL::select($this->getTableName());
+        return MySQL::select($this->getTableName());
 
     }
 

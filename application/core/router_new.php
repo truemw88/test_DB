@@ -50,53 +50,72 @@ Class Route
 
         // создаем контроллер
         $controller = new $controller_name;
-        //de($controller_name);
         $action = $action_name;
-        //de($controller_name);
-
-
+        //  de($action);
+//        if (self::checkAuth() == true) {
         if (method_exists($controller, $action)) {
-            if (self::checkAuth() == true || $controller_name == 'Controller_authoriz' || $controller_name == 'Controller_reg') {
-                // вызываем действие контроллера
+            // вызываем действие контроллера
+
+            $mass = self::checkInDb();
+            if ($mass == $_COOKIE['token']) {
                 $controller->$action();
-
             } else {
-                // здесь также разумнее было бы кинуть исключение
-                echo'все плохо';
-                throw new Exception('[ERROR! Action ' . $controller_file . ' ' . $action . ' IS NOT EXSIST! ]<hr/>');
+                $cont1 = new Controller_authoriz;
+                $cont1->action_authoriz_form();
+                echo 'Неверный токен';
             }
+            //$controller->$action();
+            /* if(is_object($res)){
+                 $class = get_class_methods($action);
+                 $res = $action;
+                 $getObj = print_r(get_class_methods($action), true);
 
+             }else{
+                 $class= $action;
+                 $getObj = null;
+             }
+             var_dump($getObj);
+ */
+        } else {
+            // здесь также разумнее было бы кинуть исключение
+            throw new Exception('[ERROR! Action ' . $controller_file . ' ' . $action . ' IS NOT EXSIST! ]<hr/>');
         }
+//        }else{
+//
+//            $controller->$action();
+//            echo "Аунтефикация не пройдена <a href=\"/authoriz/authoriz_form\">Аутентификация</a>";
+//        }
+
     }
 
     ////5. Перед любым действием (action) кроме логина и обработчика формы логина - нужно проверить есть ли у поьзователя доступ.
     static function checkAuth()
     {
+        $_COOKIE['token'];
+        // self::checkInDb;
 
-        //$_COOKIE['token'];
-        // self::checkInDb
-        //de($_COOKIE['token']);
-        if (isset($_COOKIE['token'])) {
-            //de($_COOKIE['token']);
-            $access = self::checkInDb($_COOKIE['token']);
-            if ($access == $_COOKIE['token']) {
-                echo 'токен есть';
-                return true;
-            }
-        } else {
-//            de('kewqeop');
-            //echo 'токента нет';
-            return false;
-        }
+
+        //  de($_COOKIE['token']);
+//        if (isset($_COOKIE['token'])) {
+//            // de($_COOKIE['token']);
+//            $tok = $_COOKIE['token'];
+//            $access = self::checkInDb($_COOKIE['token']);
+//            if ($access == $_COOKIE['token']) {
+//                echo 'токен есть';
+//                return true;
+//            } else {
+//                echo 'токента нет';
+//                return false;
+//            }
+//        }
     }
 
-    static function checkInDb($token)
+    static function checkInDb()
     {
         //de('dwadwa');
-        $access = MySQL::select('persone', [], ['token' => $token]);
-
-        //de($access[0]['token']);
+        $access = MySQL::select('persone', $_POST, $_POST);
         return $access[0]['token'];
+        //de($access[0]['token']);
     }
 
     function ErrorPage404()

@@ -1,13 +1,11 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "application" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "model_methods.php";
-//include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "application" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "model_product.php";
 
 class Controller_Main extends Controller
 {
     function action_index()
     {
-        $products = SQL::select('product', [], []);
+        $products = MySQL::select('product', [], []);
         if ($products === false) {
 
         }
@@ -31,16 +29,16 @@ class Controller_Main extends Controller
         $product->load($_POST);// {title: qweqwe, price: 120}
         $product->save(); //{id: 5, title: qweqwe, price: 120}
 
-        $add = SQL::select('product', $_POST);
+        $add = MySQL::select('product', $_POST);
     }
 
     function action_update_record_form()
     {
-        $product = SQL::select('product', [], ['id' => $_GET['id']]);
-        de($product);
-        $product = new Product_Model();
-        $product->find(['id' => $_GET['id']]);
-        $this->view->generate('addrecord_view.php', 'template_view.php');
+        $product = MySQL::select('product', [], ['id' => $_GET['id']]);
+//        de($product);
+//        $product = new Product_Model();
+//        $product->find(['id' => $_GET['id']]);
+//        $this->view->generate('addrecord_view.php', 'template_view.php');
     }
 
     function action_update_record()
@@ -50,7 +48,7 @@ class Controller_Main extends Controller
         $product->load($_POST);
         $product->save(); //{id: 5, title: qweqwe, price: 120}
 
-        $add = SQL::select('product', $_POST);
+        $add = MySQL::select('product', $_POST);
     }
     //TODO разработать автозагрузчик классов
 
