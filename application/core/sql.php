@@ -1,15 +1,13 @@
 <?php
 
-
 include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "application" . DIRECTORY_SEPARATOR . "core" . DIRECTORY_SEPARATOR . "sql.php";
-
 
 class Controller_reg extends Controller {
 
 
     function action_index()
     {
-        $persones = sql::select('persone');
+        $persones = SQL::select('persone');
         if ($persones === false) {
 
         }
@@ -35,7 +33,7 @@ class Controller_reg extends Controller {
 //                $value= stripslashes($value);
 //                $
 //            }
-        $add = sql::insert('persone',$_POST);
+        $add = SQL::insert('product',$_POST);
 
 
     }

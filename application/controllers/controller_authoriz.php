@@ -1,5 +1,6 @@
 <?php
 
+include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "application" . DIRECTORY_SEPARATOR . "core" . DIRECTORY_SEPARATOR . "sql.php";
 
 class Controller_authoriz extends Controller
 {
@@ -44,11 +45,11 @@ class Controller_authoriz extends Controller
 
     public function getPerson()
     {
-        return MySQL::select('persone', $_POST, $_POST);
+        return sql::select('persone', $_POST, $_POST);
     }
 
     public function setPerson($token)
     {
-        return MySQL::update('persone', ['token' => $token]);
+        return sql::update('persone', ['token' => $token]);
     }
 }

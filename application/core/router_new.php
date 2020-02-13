@@ -113,7 +113,7 @@ Class Route
     static function checkInDb()
     {
         //de('dwadwa');
-        $access = MySQL::select('persone', $_POST, $_POST);
+        $access = sql::select('persone', $_POST, $_POST);
         return $access[0]['token'];
         //de($access[0]['token']);
     }
