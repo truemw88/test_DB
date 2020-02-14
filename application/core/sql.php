@@ -84,6 +84,7 @@ class sql
         }
 
         if (DUMP_SQL) {
+            //de($sql);
             echo $sql . '<br>';
         }
 
@@ -116,7 +117,7 @@ class sql
 //            || $columnValue == null ){
 //            $columnValue = $fieldValue;
 //        }
-
+//de($columnValue);
         $values = [];
         foreach ($fieldValue as $key => $value) {
             if (is_numeric($value)) {
@@ -127,41 +128,48 @@ class sql
         }
         $values = implode(" , ", $values);
 
-        $condition = [];
-        foreach ($columnValue as $key => $value) {
-            if (is_numeric($value)) {
-                $condition[] = " AND " . $key . " = " . $value;
-            } else {
-                $condition[] = " AND " . $key . " = '" . $value . "'";
+        if (is_array($columnValue)) {
+            $condition = [];
+            foreach ($columnValue as $key => $value) {
+                if (is_numeric($value)) {
+                    $condition[] = " AND " . $key . " = " . $value;
+                } else {
+                    $condition[] = " AND " . $key . " = '" . $value . "'";
+                }
             }
-        }
-        $condition = implode(" " , $condition);
+            $condition = implode(" ", $condition);
 
-        $sql = "UPDATE $table SET " . $values . "  WHERE 1=1 " . $condition;
-        $result = $db->query($sql);
-        if ($result == false) {
-            return false;
-        } else {
-            return true;
+        } elseif (is_string($columnValue)){
+            $condition = "AND id = " . $columnValue  ;
         }
 
-    }
-
-    public static function delete($table, $columnValue = null)
-    {
-        $db = Db::getConnection();
-
-        foreach ($columnValue as $key => $value) {
-            if (is_numeric($value)) {
-                $condition[] = " AND " . $key . " = " . $value;
+            $sql = "UPDATE $table SET " . $values . "  WHERE 1=1 " . $condition;
+            $result = $db->query($sql);
+            //de($sql);
+            if ($result == false) {
+                return false;
             } else {
-                $condition[] = " AND " . $key . " = '" . $value . "'";
+                return true;
             }
+
         }
-        $condition = implode(" , ", $condition);
 
-        $sql = "DELETE FROM $table WHERE 1 = 1 " . $condition;
-        $result = $db->query($sql);
+        public
+        static function delete($table, $columnValue = null)
+        {
+            $db = Db::getConnection();
 
+            foreach ($columnValue as $key => $value) {
+                if (is_numeric($value)) {
+                    $condition[] = " AND " . $key . " = " . $value;
+                } else {
+                    $condition[] = " AND " . $key . " = '" . $value . "'";
+                }
+            }
+            $condition = implode(" , ", $condition);
+
+            $sql = "DELETE FROM $table WHERE 1 = 1 " . $condition;
+            $result = $db->query($sql);
+
+        }
     }
-}

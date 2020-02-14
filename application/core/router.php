@@ -50,10 +50,7 @@ Class Route
 
         // создаем контроллер
         $controller = new $controller_name;
-        //de($controller_name);
         $action = $action_name;
-        //de($controller_name);
-
 
         if (method_exists($controller, $action)) {
             if (self::checkAuth() == true || $controller_name == 'Controller_authoriz' || $controller_name == 'Controller_reg') {
@@ -72,7 +69,7 @@ Class Route
     ////5. Перед любым действием (action) кроме логина и обработчика формы логина - нужно проверить есть ли у поьзователя доступ.
     static function checkAuth()
     {
-
+        //de($_COOKIE['token']);
         //$_COOKIE['token'];
         // self::checkInDb
         //de($_COOKIE['token']);
