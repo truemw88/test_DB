@@ -1,40 +1,144 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "application" . DIRECTORY_SEPARATOR . "core" . DIRECTORY_SEPARATOR . "sql.php";
+class sql
+{
 
-class Controller_reg extends Controller {
+    /**
+     * @param $table
+     * @param $fieldValue массив ['title'=>'батарея для телефона', 'price'] батарея для телефона
+     */
 
-
-    function action_index()
+    static function each($columnValue)
     {
-        $persones = SQL::select('persone');
-        if ($persones === false) {
+        $condition = [];
+        foreach ($columnValue as $key => $value) {
+            if (is_numeric($value)) {
+                $condition[] = " AND " . $key . " = " . $value;
+            } else {
+                $condition[] = " AND " . $key . " = '" . $value . "'";
+            }
+        }
+        $condition = implode(" , ", $condition);
+    }
+
+    public static function insert($table, $fieldValue)
+    {
+        //de($fieldValue);
+        foreach ($fieldValue as $key => $value) {
+            if (is_numeric($value)) {
+                $values[] = $value;
+            } else {
+                $values[] = "'" . $value . "'";
+            }
+            $fields[] = $key;
 
         }
-        $this->view->renderObjects(
-            ['title' => 'Персоны', 'objects' => $persones]
-        );
+        $values1 = implode(" , ", $values);
+        $fields1 = implode(" , ", $fields);
+        $db = Db::getConnection();
+
+        $sql = "INSERT INTO $table (" . $fields1 . ") VALUES (" . $values1 . ")";
+        $query = $db->query($sql);
+
+
+        if ($query) {
+            $db->insert_id;
+            return $db->insert_id;
+        } else {
+            return false;
+        }
     }
 
-    function action_add_pers_form()
+    public static function select($table, $columnValue = [])
     {
-        $this->view->generate('reg_view.php', 'template_view.php');
+        $db = Db::getConnection();
+
+        // $condition = self::each($columnValue);
+
+        $condition = [];
+
+        foreach ($columnValue as $key => $value) {
+            if (is_numeric($value)) {
+                $condition[] = " AND " . $key . " = " . $value;
+            } else {
+                $condition[] = " AND " . $key . " = '" . $value . "'";
+            }
+        }
+        $condition = implode(" ", $condition);
+
+
+        $sql = "SELECT * FROM $table ";
+        $sql .= "WHERE 1=1 " . $condition;
+        $result = $db->query($sql);
+
+        //  de($sql);
+        $rows = [];
+        if ($result == false) {
+            return false;
+        } else {
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $rows[] = $row;
+            }
+            return $rows;
+
+        }
     }
 
-    function action_add_pers(){
+    public static function update($table, $fieldValue = null, $columnValue = null)//, $columnValue = null
+    {
+        $db = Db::getConnection();
 
-//        $name = $_POST['user'];
-//        $mail = $_POST['mail'];
-//        $password = $_POST['pass'];
-//
-//            function clean($value =""){
-//
-//                $value = trim($value);
-//                $value= stripslashes($value);
-//                $
-//            }
-        $add = SQL::insert('product',$_POST);
+//        if($fieldValue == $columnValue
+//            || $fieldValue == null
+//            || $columnValue == null ){
+//            $columnValue = $fieldValue;
+//        }
 
+        $values = [];
+        foreach ($fieldValue as $key => $value) {
+            if (is_numeric($value)) {
+                $values[] = $key . " = " . $value;
+            } else {
+                $values[] = $key . " = '" . $value . "'";
+            }
+        }
+        $values = implode(" , ", $values);
+
+        $condition = [];
+        foreach ($columnValue as $key => $value) {
+            if (is_numeric($value)) {
+                $condition[] = " AND " . $key . " = " . $value;
+            } else {
+                $condition[] = " AND " . $key . " = '" . $value . "'";
+            }
+        }
+        $condition = implode(" " , $condition);
+
+        $sql = "UPDATE $table SET " . $values . "  WHERE 1=1 " . $condition;
+        $result = $db->query($sql);
+        if ($result == false) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    public static function delete($table, $columnValue = null)
+    {
+        $db = Db::getConnection();
+
+        foreach ($columnValue as $key => $value) {
+            if (is_numeric($value)) {
+                $condition[] = " AND " . $key . " = " . $value;
+            } else {
+                $condition[] = " AND " . $key . " = '" . $value . "'";
+            }
+        }
+        $condition = implode(" , ", $condition);
+
+        $sql = "DELETE FROM $table WHERE 1 = 1 " . $condition;
+        $result = $db->query($sql);
 
     }
 }
