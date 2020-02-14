@@ -7,7 +7,7 @@ require_once 'core/controller.php';
 require_once 'core/model.php';
 require_once 'core/views.php';
 //require_once 'controllers/controller_authoriz.php';
-require_once 'models/model_methods.php';
+require_once 'core/sql.php';
 require_once 'components/Db.php';
 
 

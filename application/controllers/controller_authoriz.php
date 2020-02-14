@@ -1,6 +1,5 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "application" . DIRECTORY_SEPARATOR . "core" . DIRECTORY_SEPARATOR . "sql.php";
 
 class Controller_authoriz extends Controller
 {
