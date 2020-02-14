@@ -10,11 +10,15 @@
 
 abstract class Model
 {
+    public static function findAll()
+    {
+
+    }
+
     function find($columnValue)
     {
         return sql::select($this->getTableName());
     }
-
 
     function save()
     {

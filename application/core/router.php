@@ -92,11 +92,12 @@ Class Route
 
     static function checkInDb($token)
     {
-        //de('dwadwa');
-        $access = sql::select('persone', [], ['token' => $token]);
-
-        //de($access[0]['token']);
-        return $access[0]['token'];
+        $access = sql::selectOne('persone', ['token' => $token]);
+        if ($access) {
+            return $access['token'];
+        } else {
+            return false;
+        }
     }
 
     function ErrorPage404()

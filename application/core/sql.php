@@ -49,7 +49,17 @@ class sql
         }
     }
 
-    public static function select($table, $columnValue = [])
+    public static function selectOne($table, $columnValue = [])
+    {
+        $result = self::select($table, $columnValue, true);
+        if (!empty($result)) {
+            return $result[0];
+        } else {
+            return false;
+        }
+    }
+
+    public static function select($table, $columnValue = [], $one = false)
     {
         $db = Db::getConnection();
 
@@ -64,27 +74,40 @@ class sql
                 $condition[] = " AND " . $key . " = '" . $value . "'";
             }
         }
-        $condition = implode(" ", $condition);
 
+        $condition = implode(" ", $condition);
 
         $sql = "SELECT * FROM $table ";
         $sql .= "WHERE 1=1 " . $condition;
+        if ($one) {
+            $sql .= ' LIMIT 1';
+        }
+
+        if (DUMP_SQL) {
+            echo $sql . '<br>';
+        }
+
         $result = $db->query($sql);
 
         //  de($sql);
         $rows = [];
         if ($result == false) {
-            return false;
+            $rows = false;
         } else {
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $rows[] = $row;
             }
-            return $rows;
-
         }
+
+        if (DUMP_SQL) {
+            var_dump($rows);
+            echo '<hr>';
+        }
+
+        return $rows;
     }
 
-    public static function update($table, $fieldValue = null, $columnValue = null)//, $columnValue = null
+    public static function update($table, $fieldValue = [], $columnValue = [])//, $columnValue = null
     {
         $db = Db::getConnection();
 

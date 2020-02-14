@@ -1,6 +1,5 @@
 <?php
 
-
 class Controller_authoriz extends Controller
 {
 
@@ -11,40 +10,28 @@ class Controller_authoriz extends Controller
 
     function action_authoriz()
     {
-         /* TODO:
-
-         */
-
-
         $person = $this->getPerson();
-        //de($person);
+
         if (empty($person)) {
-            //de('dwad');
             echo "Аунтефикация не пройдена <a href=\"/authoriz/authoriz_form\">Аутентификация</a>";
-            de('dwewqearr');
             echo '<a href="/authoriz/authoriz_form">Аутентификация</a>';
         } else {
-          //  de('dwarr');
             echo "Аунтефикация пройдена <a href=\"/authoriz/authoriz_form\">Аутентификация</a>";
-            $token = rand(1000000, 9999999) . rand(1000000, 9999999);
-            //2. Если нейм и пароль совпал - генерируем случайный токен (аналог пропускного билета)
 
+            //2. Если нейм и пароль совпал - генерируем случайный токен (аналог пропускного билета)
+            $token = rand(1000000, 9999999) . rand(1000000, 9999999);
 
             //3. Этот токен записываем в БД
             $this->setPerson($token);
 
             //4. "Отдаём" токен пользователю - через куки
             setcookie("token", $token, time()+3600, "/");
-            //de($token);
-
-
-
         }
     }
 
     public function getPerson()
     {
-        return sql::select('persone', $_POST, $_POST);
+        return sql::selectOne('persone', $_POST);
     }
 
     public function setPerson($token)

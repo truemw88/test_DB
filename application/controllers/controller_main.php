@@ -28,14 +28,10 @@ class Controller_Main extends Controller
 
     function action_add_record()//insert
     {
-
-        //de($_POST);
         $product = new Model_Product();// {title: null, price: null}
 
         $product->load($_POST);// {title: qweqwe, price: 120}
         $product->save();
-        //de($product->load($_POST)); загрузил и выдал ид
-        // $product->save(); //{id: 5, title: qweqwe, price: 120}
     }
 
 
@@ -54,27 +50,8 @@ class Controller_Main extends Controller
     function action_update_record()
     {
         $product = new Model_Product();// {title: null, price: null}
-
-        $mass=$product->find(['id' => $_POST['id']]);// {title: qweqwe, price: 120}
-        $product->load($mass[0]);
-        $product->save($_POST);
-        //de($product->save($_POST));
-        //$product->save(); //{id: 5, title: qweqwe, price: 120}
-
-
+        $product->find(['id' => $_POST['id']]);// {title: qweqwe, price: 120}
+        $product->load($_POST);
+        $product->save();
     }
-    //TODO разработать автозагрузчик классов
-
-
-//    function __construct()
-//    {
-//        $this->model = new Model_Portfolio();
-//        $this->view = new View();
-//    }
-//
-//    function action_index()
-//    {
-//        $data = $this->model->get_data();
-//        $this->view->generate('portfolio_view.php', 'template_view.php', $data);
-//    }
 }
